@@ -1,11 +1,18 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import JobInfoForm from "./_components/JobInfoForm";
+import TaskInfoForm from "./_components/TaskInfoForm";
 import AppHighlights from "./_components/AppHighlights";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Home() {
   const { open, isMobile } = useSidebar();
+  const [activeTab, setActiveTab] = useState("job");
+
   return (
     <div
       className="w-full relative flex-1 min-h-screen flex
@@ -76,7 +83,18 @@ export default function Home() {
           </p>
         </div>
 
-        <JobInfoForm />
+        <Tabs defaultValue="job" className="w-full max-w-2xl mx-auto">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="job">New Job</TabsTrigger>
+            <TabsTrigger value="task">New Task</TabsTrigger>
+          </TabsList>
+          <TabsContent value="job">
+            <JobInfoForm />
+          </TabsContent>
+          <TabsContent value="task">
+            <TaskInfoForm />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

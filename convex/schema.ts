@@ -3,6 +3,7 @@ import {
   JobStatus,
   PaymentStatus,
   Role,
+  TaskInsightStatus,
 } from "@/lib/constants";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
@@ -31,6 +32,37 @@ export default defineSchema({
     text: v.string(),
     role: v.union(v.literal(Role.USER), v.literal(Role.AI)),
     status: v.union(
+      v.literal(TaskInsightStatus.PENDING),
+      v.literal(TaskInsightStatus.COMPLETED),
+      v.literal(TaskInsightStatus.FAILED)
+    ),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_job", ["jobId"])
+    .index("by_user", ["userId"]),
+
+  tasks: defineTable({
+    userId: v.string(),
+    projectDescription: v.string(),
+    tasksList: v.optional(v.array(v.string())),
+    status: v.union(
+      v.literal("processing"),
+      v.literal("ready"),
+      v.literal("failed")
+    ),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_status", ["status"]),
+
+  taskConversations: defineTable({
+    userId: v.string(),
+    taskId: v.id("tasks"),
+    text: v.string(),
+    role: v.union(v.literal(Role.USER), v.literal(Role.AI)),
+    status: v.union(
       v.literal(JobInsightStatus.PENDING),
       v.literal(JobInsightStatus.COMPLETED),
       v.literal(JobInsightStatus.FAILED)
@@ -38,7 +70,7 @@ export default defineSchema({
     createdAt: v.number(),
     updatedAt: v.number(),
   })
-    .index("by_job", ["jobId"])
+    .index("by_task", ["taskId"])
     .index("by_user", ["userId"]),
 
   apiLimits: defineTable({
