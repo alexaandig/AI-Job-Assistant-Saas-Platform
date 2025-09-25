@@ -13,6 +13,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import JobSidebarList from "./JobSidebarList";
+import TaskSidebarList from "./TaskSidebarList";
 import SignInPrompt from "./SignInPrompt";
 import SidebarFooterContent from "./SidebarFooterContent";
 import { useAuth, useUser } from "@clerk/nextjs";
@@ -63,11 +64,28 @@ const AppSidebar = () => {
                   <span>New Job</span>
                 </Button>
               </Link>
+              <Link href="/">
+                <Button
+                  variant="outline"
+                  className="w-full
+            !bg-transparent !text-white
+            border-[rgba(255,255,255,.2)]
+            mt-3 !h-10 !rounded-lg !font-medium text-sm
+            hover:!bg-gray-700 transition-colors
+            "
+                >
+                  <PlusIcon className="w-4 h-4" />
+                  <span>New Task</span>
+                </Button>
+              </Link>
             </SidebarGroupContent>
           </SidebarGroup>
 
           {/* {Job List} */}
           {userId && <JobSidebarList {...{ userId }} />}
+
+          {/* {Task List} */}
+          {userId && <TaskSidebarList {...{ userId }} />}
 
           {/* {Sign In Prompt} */}
           {!isSignedIn && isLoaded ? <SignInPrompt /> : null}

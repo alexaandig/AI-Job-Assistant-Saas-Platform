@@ -13,6 +13,14 @@ export const JobStatus = {
 
 export type JobStatusType = keyof typeof JobStatus;
 
+export const TaskStatus = {
+  PROCESSING: "processing",
+  READY: "ready",
+  FAILED: "failed",
+} as const;
+
+export type TaskStatusType = keyof typeof TaskStatus;
+
 export const JobInsightStatus = {
   PENDING: "PENDING",
   COMPLETED: "COMPLETED",
@@ -20,6 +28,14 @@ export const JobInsightStatus = {
 } as const;
 
 export type JobInsightStatusType = keyof typeof JobInsightStatus;
+
+export const TaskInsightStatus = {
+  PENDING: "PENDING",
+  COMPLETED: "COMPLETED",
+  FAILED: "FAILED",
+} as const;
+
+export type TaskInsightStatusType = keyof typeof TaskInsightStatus;
 
 export const PaymentStatus = {
   PENDING: "PENDING",
